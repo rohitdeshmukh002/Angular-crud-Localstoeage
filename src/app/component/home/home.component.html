@@ -1,0 +1,88 @@
+<!-- employee-home.component.html -->
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h3>Employee Management</h3>
+                        </div>
+                        <div class="col-md-6 text-end">
+                            <button class="btn btn-primary" (click)="addEmployee()">
+                                <i class="fas fa-plus"></i> Add Employee
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <table class="table table-bordered table-striped">
+                        <thead>
+                            <tr>
+                                <th>EmpId</th>
+                                <th>EmpName</th>
+                                <th>Email</th>
+                                <th>City</th>
+                                <th>State</th>
+                                <th>Salary</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let employee of employeeList;">
+                                <td>{{ employee.empId }}</td>
+                                <td>{{ employee.empName }}</td>
+                                <td>{{ employee.email }}</td>
+                                <td>{{ employee.city }}</td>
+                                <td>{{ employee.state }}</td>
+                                <td>{{ employee.salary }}</td>
+                                <td>
+                                    <button class="btn btn-info me-2" (click)="editEmployee(employee)">
+                                        <i class="ba ba-edit"></i> Edit
+                                    </button>
+                                    <button class="btn btn-danger" (click)="deleteEmployee(employee.empId)">
+                                        <i class="fas fa-trash"></i> Delete
+                                    </button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@if (isadding) {
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card shadow-lg">
+                <div class="card-header text-center bg-primary text-white">
+                    <h4>{{ isEditMode ? 'Edit Employee' : 'Add Employee' }}</h4>
+                </div>
+                <div class="card-body">
+                    <form [formGroup]="employeeForm" (ngSubmit)="onSubmit()">
+                        <div class="mb-3" *ngFor="let field of fields">
+                            <label [for]="field.name" class="form-label">{{ field.label }}</label>
+                            <input [type]="field.type" class="form-control" [id]="field.name"
+                                [placeholder]="field.placeholder" formControlName="{{ field.name }}"
+                                [ngClass]="{'is-invalid': employeeForm.get(field.name)?.invalid && employeeForm.get(field.name)?.touched}" />
+                            <div class="invalid-feedback">
+                                {{ field.error }}
+                            </div>
+                        </div>
+                        <div class="text-center">
+                            <button type="submit" class="btn btn-primary w-40" [disabled]="employeeForm.invalid">
+                                Submit
+                            </button>
+                            <button type="button" class="btn btn-primary w-40" routerLink="/home">Cancel</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+}
